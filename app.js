@@ -8,45 +8,6 @@
     var GOOGLE_MAPS_API_KEY = 'AIzaSyCtG8PgzAlIL0AbJvHpilPQV0QiWTaYKdU';
     var GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
 
-    // =================================================
-// Skycons
-// =================================================
-
-    // function skycons() {
-    //     var i,
-    //             icons = new Skycons({
-    //                 "color" : "#FFFFFF",
-    //                 "resizeClear": true // nasty android hack
-    //             }),
-    //             list  = [ // listing of all possible icons
-    //                 "clear-day",
-    //                 "clear-night",
-    //                 "partly-cloudy-day",
-    //                 "partly-cloudy-night",
-    //                 "cloudy",
-    //                 "rain",
-    //                 "sleet",
-    //                 "snow",
-    //                 "wind",
-    //                 "fog"
-    //             ];
-
-	// // loop thru icon list array
-	// for(i = list.length; i--;) {
-	// 	var weatherType = list[i], // select each icon from list array
-	// 			// icons will have the name in the array above attached to the
-	// 			// canvas element as a class so let's hook into them.
-	// 			elements    = document.getElementsByClassName( weatherType );
-
-	// 	// loop thru the elements now and set them up
-	// 	for (e = elements.length; e--;) {
-	// 		icons.set(elements[e], weatherType);
-	// 	}
-	// }
-
-	// // animate the icons
-	// icons.play();
-  
     function getCurrentWeather(coords) {
         
         var url = `${CORS_PROXY}${DARKSKY_API_URL}${DARKSKY_API_KEY}/${coords.lat},${coords.lng}`;
@@ -78,37 +39,72 @@
     var cityWeather = app.querySelector('.city-weather');
     var cityHumidity = app.querySelector('.city-humidity');
     var weeklyForecast = app.querySelector('.weekly-forecast');
+    
+    var days = ['Sun - ', 'Mon - ', 'Tue - ', 'Wed - ', 'Thu - ', 'Fri - ', 'Sat - '];
 
     var input = document.getElementById('autocomplete');
     var autocomplete = new google.maps.places.Autocomplete(input,{types: ['(cities)']});
-    // google.maps.event.addListener(autocomplete, 'place_changed', function(){
-    //    var place = autocomplete.getPlace();
-    // })
 
     $("#load").hide();
 
     cityForm.addEventListener('submit', function(event) {
         event.preventDefault(); // prevent the form from submitting
         cityWeather.innerText = '';
+        cityHumidity.innerText = '';
+        // document.getElementById("weekly-forecast").remove();
         var city = cityInput.value;
   
         getCoordinatesForCity(city)
         .then(getCurrentWeather)
         .then(function(weather) {
         $("#load").hide(); 
+
         cityWeather.innerText = 'Current temperature: ' + weather.currently.temperature + ' °F';
         cityHumidity.innerText = 'Current humidity: ' + weather.currently.humidity;
 
+        var icons = new Skycons({"color": "#41b2f4"});
+        if (weather.currently.icon = "clear-day") {
+            icons.set('icon1', Skycons.CLEAR_DAY);
+        }
+        if (weather.currently.icon = "clear-day") {
+            icons.set('icon1', Skycons.CLEAR_NIGHT);
+        }
+        if (weather.currently.icon = "partly-cloudy-day") {
+            icons.set("icon1", Skycons.PARTLY_CLOUDY_DAY);
+        }
+        if (weather.currently.icon = "partly-cloudy-night") {
+            icons.set("icon1", Skycons.PARTLY_CLOUDY_NIGHT);
+        }
+        if (weather.currently.icon = "cloudy") {
+            icons.set("icon1", Skycons.CLOUDY);
+        }
+        if (weather.currently.icon = "rain") {
+            icons.set("icon1", Skycons.RAIN);
+        }
+        if (weather.currently.icon = "sleet") {
+            icons.set("icon1", Skycons.SLEET);
+        }
+        if (weather.currently.icon = "snow") {
+            icons.set("icon1", Skycons.SNOW);
+        }
+        if (weather.currently.icon = "wind") {
+            icons.set("icon1", Skycons.WIND);
+        }
+        if (weather.currently.icon = "fog") {
+            icons.set("icon1", Skycons.FOG);
+        }
+
+        icons.play(); 
+
         var forecast = document.createElement("div");
         for(var i = 1; i<7; i++){
-            var day = document.createElement("div");
-            var high = weather.daily.data[i].temperatureHigh;
+            var d = new Date(); 
+            var n = d.getDay();
 
-            day.innerText = high;
-            forecast.append(day);
-            //console.log(array);
+            var high = weather.daily.data[i].temperatureHigh;
+            var low = weather.daily.data[i].temperatureLow; 
+            cityHumidity.innerHTML += "<div class='weekly-forecast'>" + days[n+i] + '    High: ' + high + '   ' + '/ Low: ' + low + '</div>'; 
         }
-        weeklyForecast.append(forecast);
       })
     });
   })();
