@@ -34,12 +34,12 @@
 
     var app = document.querySelector('#app');
     var cityForm = app.querySelector('.city-form');
+    var refreshForm = app.querySelector('.refresh-button')
     var cityInput = cityForm.querySelector('.city-input');
     var getWeatherButton = cityForm.querySelector('.get-weather-button');
     var cityWeather = app.querySelector('.city-weather');
     var cityHumidity = app.querySelector('.city-humidity');
     var cityPrecipitation = app.querySelector('.city-precipitation');
-    var weeklyForecast = app.querySelector('.weekly-forecast');
 
     // array for storing daily weather
     var days = ['Sun - ', 'Mon - ', 'Tue - ', 'Wed - ', 'Thu - ', 'Fri - ', 'Sat - '];
@@ -107,6 +107,7 @@
                 icons.play();
                 // hide previous icon when searching for new icon 
                 document.getElementById('icon').style.visibility = "visible";
+
                 // weekly forecast for loop 
                 for (var i = 1; i < 7; i++) {
                     var d = new Date();

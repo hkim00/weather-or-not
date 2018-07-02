@@ -1,10 +1,15 @@
-h1 { 
+a, h1 { 
     text-align:center;
     font-size:90px;
     font-family: 'Bevan';
     color: white;
-    padding-top: 10px;
+    padding-top: -10%;
     padding-bottom: 20px;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(225, 127, 0);
 }
 
 h2 { 
@@ -16,6 +21,7 @@ h2 {
     margin-top: 10%;
     padding-left: 8%;
     padding-bottom: 100px;
+    text-decoration: underline;
 }
 
 h3 { 
@@ -26,6 +32,7 @@ h3 {
     color: rgb(225, 127, 0);
     margin-top: 10%;
     padding-left: 85%;
+    text-decoration: underline;
 }
 
 html { 
